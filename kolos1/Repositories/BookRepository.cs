@@ -17,7 +17,7 @@ public class BookRepository : IBookRepository
     public async Task<bool> DoesBookExist(int id)
     {
         var query = "SELECT 1 FROM Books WHERE ID = @ID";
-        await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("ConnectionStrings:DefaultConnection"));
+        await using SqlConnection connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
         await using SqlCommand command = new SqlCommand();
 
         command.Connection = connection;
@@ -37,7 +37,7 @@ public class BookRepository : IBookRepository
                         JOIN books_authors ON books_authors.FK_book = books.PK
                         JOIN [authors] ON [authors].PK = books_authors.FK_author";
         
-        await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("ConnectionStrings:DefaultConnection"));
+        await using SqlConnection connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
         await using SqlCommand command = new SqlCommand();
 
         command.Connection = connection;
@@ -93,7 +93,7 @@ public class BookRepository : IBookRepository
         var insert = @"INSERT INTO books VALUES(@Title); 
                             SELECT @@IDENTITY AS ID;";
 
-        await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("ConnectionStrings:DefaultConnection"));
+        await using SqlConnection connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
         await using SqlCommand command = new SqlCommand();
 
         command.Connection = connection;
